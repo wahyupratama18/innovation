@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Actions\Others\QR;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Mutation extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        QR;
 
     protected $fillable = [
         'account_id',
@@ -20,7 +22,9 @@ class Mutation extends Model
     ],
     
     $appends = [
-        'type_read'
+        'reference',
+        'type_read',
+        'qr'
     ];
 
     private const TYPES = ['Kredit', 'Debet'];
@@ -48,5 +52,17 @@ class Mutation extends Model
     public function getTypeReadAttribute(): ?string
     {
         return $this->type ? self::TYPES[$this->type] : null;
+    }
+
+    public function getReferenceAttribute(): ?string
+    {
+        return $this->id
+        ? date('Ymd', strtotime($this->updated_at)).str_pad($this->id, 4, "0", STR_PAD_LEFT)
+        : null;
+    }
+
+    public function getQrAttribute(): ?string
+    {
+        return $this->svg($this->getReferenceAttribute());
     }
 }

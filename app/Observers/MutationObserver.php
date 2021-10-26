@@ -10,7 +10,9 @@ class MutationObserver
 
     private function balancer(Account $account, int $amount, int $type): int
     {
-        $newBalance = ($type == 0 ? $account->balance + $amount : $account->balance - $amount);
+        $newBalance = ($type == 0
+        ? $account->balance + $amount
+        : $account->balance - $amount);
 
         $account->forceFill([
             'balance' => $newBalance

@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\Admin\Report;
 use App\Http\Controllers\Controller;
 use App\Models\Mutation;
 use Illuminate\Http\Request;
+use Inertia\{Inertia, Response};
 
 class MutationController extends Controller
 {
+    use Report;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render('User/Mutation/Index', [
+            /* 'mutations' => Mutation::where('account_id', auth()->user()->account->id)
+            ->where('updated_at') */
+        ]);
     }
 
     /**
@@ -45,9 +52,11 @@ class MutationController extends Controller
      * @param  \App\Models\Mutation  $mutation
      * @return \Illuminate\Http\Response
      */
-    public function show(Mutation $mutation)
+    public function show(Mutation $mutation): Response
     {
-        //
+        return Inertia::render('User/Mutation/Show', [
+            'mutation' => $mutation
+        ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Teller;
 
+use App\Models\Mutation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAMTRequest extends FormRequest
@@ -13,7 +14,7 @@ class UpdateAMTRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->checkAMT($this->amt);
     }
 
     /**
@@ -21,12 +22,14 @@ class UpdateAMTRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            'amount' => 'required|integer',
-            'balance' => 'required|gte:amount',
-            'status' => 'required|integer|size:0'
-        ];
+        return [];
+    }
+
+    private function checkAMT(Mutation $mutation): bool
+    {
+        return $mutation->account->balance >= $mutation->amount
+        && $mutation->status == 0;
     }
 }

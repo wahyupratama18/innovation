@@ -11,6 +11,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.9.96/css/materialdesignicons.min.css">
 
         <!-- Scripts -->
         @routes

@@ -1,5 +1,5 @@
 <template>
-    <header class="w-full fixed top-0 z-20 mx-auto flex h-20 shadow-md bg-white">
+    <header class="w-full fixed top-0 z-30 mx-auto flex h-20 shadow-md bg-white">
         <div class="flex items-center py-2 px-4 pr-3 bg-hero rounded-br-[3rem]">
 
             <Link :href="route('welcome')" class="flex items-center">
@@ -35,7 +35,7 @@
     </header>
 
     <transition leave-active-class="duration-200">
-        <div v-show="show" class="fixed inset-0 overflow-y-auto z-10" scroll-region>
+        <div v-show="show" class="fixed inset-0 overflow-y-auto z-20" scroll-region>
             <transition enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0"
                     enter-to-class="opacity-100"

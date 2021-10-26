@@ -1,7 +1,8 @@
 <template>
     <div>
         <single-responsive :href="route('users.index')">Data Pengguna</single-responsive>
-        <single-responsive :href="route('tellers.index')">Cash Flow Teller</single-responsive>
+        <single-responsive :href="route('tellers.index')">Data Teller</single-responsive>
+        <single-responsive :href="route('report.index')">Cash Flow di Teller</single-responsive>
     </div>
 </template>
 

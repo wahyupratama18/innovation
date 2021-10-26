@@ -1,12 +1,12 @@
 <template>
     <div class="m-4 pt-4">
-        <h1 class="font-bold" v-html="title"></h1>
+        <h1 class="font-bold" v-html="title" />
         <ol class="flex">
             <li v-for="(bread, key) in breads" :key="key" class="flex items-center">
-                <Link :href="bread.route" v-html="bread.text" v-if="bread.route"></Link>
-                <a href="javascript:void(0)" v-html="bread.text" v-else></a>
+                <Link :href="bread.route" v-html="bread.text" v-if="bread.route" />
+                <a href="javascript:void(0)" v-html="bread.text" v-else />
 
-                <i class="mdi mdi-chevron-right mx-2" v-if="key < breads.length - 1"></i>
+                <i class="mdi mdi-chevron-right mx-2" v-if="key < breads.length - 1" />
             </li>
         </ol>
     </div>

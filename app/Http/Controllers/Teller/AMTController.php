@@ -34,17 +34,13 @@ class AMTController extends Controller
         return redirect()->route('amt.index');
     }
 
-    public function update(UpdateAMTRequest $request, Mutation $mutation): RedirectResponse
+    public function update(UpdateAMTRequest $request, Mutation $amt): RedirectResponse
     {
-        DB::transaction(function () use ($request, $mutation) {
+        DB::transaction(function () use ($request, $amt) {
 
-            $request->request->add([
-                'amount' => $mutation->amount,
-                'balance' => $mutation->account->balance,
-                'status' => $mutation->status
-            ]);
+            $request->validated();
     
-            $mutation->update($request->validated());
+            $amt->update(['status' => 1]);
         });
 
         return redirect()->route('amt.index');

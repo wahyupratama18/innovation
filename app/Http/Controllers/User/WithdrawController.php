@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreWithdrawRequest;
 use App\Models\Mutation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\{Inertia, Response};
 
 class WithdrawController extends Controller
 {
@@ -23,9 +26,9 @@ class WithdrawController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('User/Withdraw/Create');
     }
 
     /**
@@ -34,9 +37,21 @@ class WithdrawController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWithdrawRequest $request)
     {
-        //
+        return DB::transaction(function () use ($request) {
+            $mutation = Mutation::create(
+                array_merge($request->validated(), [
+                    'account_id' => auth()->user()->account->id,
+                    'name' => 'Tarik Tunai',
+                    'type' => 1,
+                    'status' => 0
+                ])
+            );
+
+            return redirect()->route('withdraw.show', ['withdraw' => $mutation->id]);
+        });
+
     }
 
     /**
@@ -47,7 +62,9 @@ class WithdrawController extends Controller
      */
     public function show(Mutation $mutation)
     {
-        //
+        return Inertia::render('User/Withdraw/Show', [
+            'mutation' => $mutation
+        ]);
     }
 
     /**

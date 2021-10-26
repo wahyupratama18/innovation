@@ -1,3 +1,5 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import 'vue-good-table-next/dist/vue-good-table-next';
+@import 'vue-select/dist/vue-select';

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\{
+    TellerController,
     TellerReportController,
     UserController
 };
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('users', UserController::class)->except(['edit', 'update']);
+Route::resource('users', UserController::class)->except(['show', 'edit', 'update']);
+Route::resource('tellers', TellerController::class);
 
-Route::get('tellers', [TellerReportController::class, 'index'])->name('tellers.index');
-Route::get('tellers/range', [TellerReportController::class, 'range'])->name('tellers.range');
+Route::get('report', [TellerReportController::class, 'index'])->name('report.index');
+Route::get('report/range', [TellerReportController::class, 'range'])->name('report.range');

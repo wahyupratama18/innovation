@@ -255,6 +255,28 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
-        }
+        },
+
+        /* watch: {
+            status(){
+                console.log(this.$page)
+                if (state = this.$page.props.status) {
+                    switch(state.response){
+                        case 'success':
+                            Toasted.success(state.message)
+                            break
+                        case 'info':
+                            Toasted.info(state.message)
+                            break
+                        case 'error':
+                            Toasted.error(state.message)
+                            break
+                        default:
+                            Toasted.show(state.message)
+                            break
+                    }
+                }
+            }
+        } */
     })
 </script>

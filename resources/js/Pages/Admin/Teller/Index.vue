@@ -4,21 +4,25 @@
             <Breadcrumb :title="title" :breads="breads" />
 
             <div class="flex justify-end mb-4">
-                <Link :href="route('users.create')">
+                <Link :href="route('tellers.create')">
                     <Button>Tambah Pengguna</Button>
                 </Link>
             </div>
 
             <vue-good-table
             :columns="columns"
-            :rows="users"
+            :rows="tellers"
             :search-options="search"
             :pagination-options="search"
             :line-numbers="true">
                 <template #table-row="props">
-                    <span v-if="props.column.field == 'action'">
+                    <div v-if="props.column.field == 'action'">
+                        <Link :href="route('tellers.edit', {teller: props.row.id})">
+                            <Button>Perbarui</Button>
+                        </Link>
+
                         <DangerButton @click="remove(props.row.id)" v-text="'Hapus'" />
-                    </span>
+                    </div>
                     <span v-else v-html="props.formattedRow[props.column.field]" />
                 </template>
 
@@ -38,20 +42,19 @@ import { Link } from '@inertiajs/inertia-vue3'
 
 export default defineComponent({
     props:{
-        users: Array
+        tellers: Array
     },
     data(){
         return {
             breads: [
                 {route: route('dashboard'), text: 'Dashboard'},
-                {route: route('users.index'), text: 'Daftar Pengguna'},
+                {route: route('tellers.index'), text: 'Daftar Teller'},
             ],
             columns: [
-                {label: 'Nomor Rekening', field: 'account'},
                 {label: 'Nama', field: 'name'},
                 {label: 'Tindakan', field: 'action', sortable: false},
             ],
-            title: 'Daftar Pengguna',
+            title: 'Daftar Teller',
             search: {enabled: true}
         }
     },
@@ -69,11 +72,11 @@ export default defineComponent({
     methods:{
         remove(id){
             Swal.fire({
-                title: 'Apakah akun ini akan dihapus?',
+                title: 'Hapus akun teller ini?',
                 showCancelButton: true,
                 reverseButtons: true
             }).then(() => {
-                this.$inertia.delete(route('users.destroy', {user: id}))
+                this.$inertia.delete(route('tellers.destroy', {teller: id}))
             })
         }
     }
