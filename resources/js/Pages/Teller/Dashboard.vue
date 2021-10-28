@@ -1,15 +1,18 @@
 <template>
     <app-layout title="Dashboard">
-        <template #header>
+        <div class="p-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Selamat datang, {{ $page.props.user.name }}
             </h2>
-        </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <welcome />
+            <div class="grid grid-cols-1 divide-y-2 divide-none">
+                <div>
+                    <h6>Penerimaan uang (K)</h6>
+                    <apexchart height="300" type="area" :series="cred.series" :options="cred.options" />
+                </div>
+                <div>
+                    <h6>Penyaluran uang (D)</h6>
+                    <apexchart height="300" type="area" :series="deb.series" :options="deb.options" />
                 </div>
             </div>
         </div>
@@ -22,6 +25,38 @@
     import Welcome from '@/Jetstream/Welcome.vue'
 
     export default defineComponent({
+        props: {
+            debits: Array,
+            credits: Array
+        },
+        data(){
+            return {
+                deb: {
+                    options: {
+                        labels: this.debits.date,
+                        xaxis: {type: 'datetime'},
+                        stroke: {curve: 'smooth'},
+                        markers: {size: 1}
+                    },
+                    series: [{
+                        name: 'Grafik penyaluran',
+                        data: this.debits.flow
+                    }]
+                },
+                cred: {
+                    options: {
+                        labels: this.credits.date,
+                        xaxis: {type: 'datetime'},
+                        stroke: {curve: 'smooth'},
+                        markers: {size: 1}
+                    },
+                    series: [{
+                        name: 'Grafik penerimaan',
+                        data: this.credits.flow
+                    }]
+                },
+            }
+        },
         components: {
             AppLayout,
             Welcome,

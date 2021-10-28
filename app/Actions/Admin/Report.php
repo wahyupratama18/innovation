@@ -19,6 +19,14 @@ trait Report
         ->groupByRaw('date(updated_at)');
     }
 
+    private function toChart(Collection $mutation)
+    {
+        return $mutation->map(fn($item) => (object) [
+            'x' => $item->date,
+            'y' => $item->mount,
+        ]);
+    }
+
     private function rangeQuery(int $type, string $from, string $to): Collection
     {
         return self::query($type)
@@ -37,16 +45,16 @@ trait Report
     private function managedByTeller(int $type): Collection
     {
         return self::query($type)
-        ->whereDate('updated_at', '>=', now()->subWeek())
+        ->whereDate('updated_at', '>=', now()->subMonth())
         ->where('user_id', Auth::id())
         ->get();
     }
 
     private function userReport(Account $account): Collection
     {
-        return Mutation::select('type', 'amount', 'balance')
+        return Mutation::select('type', 'amount', 'balance', 'updated_at')
         ->where('status', 1)
-        ->where('updated_at', '>=', now()->subWeek())
+        ->where('updated_at', '>=', now()->subMonth())
         ->where('account_id', $account->id)
         ->orderByDesc('updated_at')->get();
     }

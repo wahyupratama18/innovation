@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Actions\Others\QR;
+use App\Actions\Others\{MoneyFormat, QR};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Mutation extends Model
 {
     use HasFactory,
+        MoneyFormat,
         QR;
 
     protected $fillable = [
@@ -24,7 +25,9 @@ class Mutation extends Model
     $appends = [
         'reference',
         'type_read',
-        'qr'
+        'qr',
+        'amount_format',
+        'balance_format',
     ];
 
     private const TYPES = ['Kredit', 'Debet'];
@@ -63,6 +66,18 @@ class Mutation extends Model
 
     public function getQrAttribute(): ?string
     {
-        return $this->svg($this->getReferenceAttribute());
+        return $this->id ?
+        $this->svg($this->getReferenceAttribute()) :
+        null;
+    }
+
+    public function getAmountFormatAttribute(): string
+    {
+        return $this->formatter($this->amount);
+    }
+
+    public function getBalanceFormatAttribute(): string
+    {
+        return $this->formatter($this->balance);
     }
 }

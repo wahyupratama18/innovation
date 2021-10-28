@@ -44,7 +44,7 @@
                 </template>
 
                 <template #form>
-                    <div class="col-span-6 sm:col-span-4">
+                    <!-- <div class="col-span-6 sm:col-span-4">
                         <jet-label for="account_id" value="Nomor Rekening" />
                         <jet-input id="account_id" type="number" class="mt-1 block w-full" v-model="form.account_id" ref="account_id" @change="check" />
                         <jet-input-error :message="form.errors.account_id" class="mt-2" />
@@ -60,7 +60,7 @@
                         <jet-label for="amount" value="Jumlah Tarik (Rp)" />
                         <jet-input id="amount" type="number" class="mt-1 block w-full" v-model="form.amount" ref="amount" readonly />
                         <jet-input-error :message="form.errors.amount" class="mt-2" />
-                    </div>
+                    </div> -->
 
                 </template>
 

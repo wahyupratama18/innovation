@@ -18,8 +18,12 @@
                 </div>
 
             </div>
-        </div>
 
+            <div class="mt-4" v-show="series[0].data">
+                <h4>Grafik Pergerakan Uang di Teller</h4>
+                <apexchart height="300" type="area" :series="series" :options="options" />
+            </div>
+        </div>
     </app-layout>
 </template>
 
@@ -45,20 +49,31 @@ export default defineComponent({
         return {
             from: null,
             to: null,
+            options: {
+                xaxis: {type: 'datetime'},
+                stroke: {curve: 'smooth'},
+                markers: {size: 1}
+            },
+            series: [
+                { name: 'Kredit', data: [] },
+                { name: 'Debit', data: [] }
+            ]
         }
     },
     methods: {
         range(){
             if (this.from && this.to) {
-                axios.get(route('tellers.range', {
+                axios.get(route('report.range', {
                     from: this.from,
                     to: this.to
                 })).then(response => {
-                    console.log(response)
+                    this.series = [
+                        { name: 'Kredit (K)', data: response.data.credits },
+                        { name: 'Debit (D)', data: response.data.debits }
+                    ]
                 }).catch(response => {
                     console.log(response)
                 });
-                // axios.
             }
         }
     }

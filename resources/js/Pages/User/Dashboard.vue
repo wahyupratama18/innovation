@@ -1,17 +1,11 @@
 <template>
     <app-layout title="Dashboard">
-        <template #header>
+        <div class="p-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Selamat datang, {{ $page.props.user.name }}
             </h2>
-        </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <welcome />
-                </div>
-            </div>
+            <apexchart height="300" type="area" :series="series" :options="options" />
         </div>
     </app-layout>
 </template>
@@ -22,6 +16,24 @@
     import Welcome from '@/Jetstream/Welcome.vue'
 
     export default defineComponent({
+        props: {
+            graph: Array,
+            date: Array
+        },
+        data(){
+            return {
+                options: {
+                    labels: this.date,
+                    xaxis: {type: 'datetime'},
+                    stroke: {curve: 'smooth'},
+                    markers: {size: 1}
+                },
+                series: [{
+                    name: 'Grafik keuangan',
+                    data: this.graph
+                }]
+            }
+        },
         components: {
             AppLayout,
             Welcome,

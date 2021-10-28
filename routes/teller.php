@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('deposit', DepositController::class)->only(['index', 'store']);
+Route::resource('deposit', DepositController::class)->only(['index', 'store', 'show']);
 
 Route::get('amt/mutation/{mutation}', [AMTController::class, 'search'])->name('amt.search');
-Route::resource('amt', AMTController::class)->only(['index', 'store', 'update']);
+Route::resource('amt', AMTController::class)->only(['index', 'store', 'update', 'show']);
