@@ -1,26 +1,22 @@
 <template>
-    <div class="grid sm:grid-cols-2 min-h-screen">
-        <div class="hidden sm:flex items-center bg-hero-second">
-            <img :src="asset('files/images/white.png')" alt="Enggal Mantun White Logo" class="h-20 ml-4">
+    <div class="px-6 py-8 text-white bg-hero w-full rounded-b-3xl min-h-[40vh] shadow-xl">
+        <div class="flex items-center justify-center">
+            <Link :href="route('welcome')">
+                <img :src="asset('storage/images/full-invert.png')" alt="Dopis Invert" class="h-12 mx-2">
+            </Link>
         </div>
-        <div class="flex items-center min-h-screen">
-            <div class="p-8 w-full">
-                <img :src="asset('files/images/full.png')" alt="Enggal Mantun  Logo" class="block sm:hidden my-4 h-20">
 
-                <slot />
-
-                <h4 class="w-full text-center border-b border-gray-400 leading-[.1em] my-4">
-                    <span class="bg-white px-2.5">atau</span>
-                </h4>
-                <h5 class="text-center">Masuk dengan akun sosial</h5>
-                <div class="flex items-center justify-center gap-x-6">
-                    <div v-for="(drive, key) in drivers" :key="key" class="flex items-center">
-                        <a :href="route('social.redirection', {driver: drive.driver})"  class="rounded-full bg-white shadow-lg p-3">
-                            <img :src="asset(`files/images/${drive.asset}`)" alt="Auths" class="h-8">
-                        </a>
-                    </div>
-                </div>
+        <div class="flex items-center justify-center my-12">
+            <div class="relative mx-3" v-for="i in 3" :key="i">
+                <div class="absolute rounded-full bg-white h-3 w-3" />
             </div>
+        </div>
+
+    </div>
+
+    <div class="flex justify-center -mt-24">
+        <div class="min-h-[72vh] p-10 mt-6 w-full sm:max-w-lg shadow rounded-t-[2rem] bg-white">
+            <slot />
         </div>
     </div>
 </template>

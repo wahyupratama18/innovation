@@ -1,5 +1,5 @@
 <template>
-    <div class="m-4 pt-4">
+    <div :class="activate">
         <h1 class="font-bold" v-html="title" />
         <ol class="flex">
             <li v-for="(bread, key) in breads" :key="key" class="flex items-center">
@@ -22,7 +22,16 @@ export default defineComponent({
     },
     props: {
         title: String,
-        breads: Array
+        breads: Array,
+        classes: {
+            type: Boolean,
+            default: true
+        }
     },
+    computed:{
+        activate(){
+            return this.classes ? 'm-4 pt-4' : 'mb-4'
+        }
+    }
 })
 </script>

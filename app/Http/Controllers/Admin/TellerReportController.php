@@ -25,12 +25,8 @@ class TellerReportController extends Controller
         $to = Carbon::parse($request->to)->addDay()->toDateString();
 
         return response()->json([
-            'debits' => $this->toChart(
-                $this->rangeQuery(1, $request->from, $to)
-            ),
-            'credits' => $this->toChart(
-                $this->rangeQuery(0, $request->from, $to)
-            ),
+            'debits' => $this->rangeQuery(1, $request->from, $to),
+            'credits' => $this->rangeQuery(0, $request->from, $to)
         ]);
     }
 

@@ -61,6 +61,15 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'is_customer',
+        'role_name'
+    ];
+
+    private const ROLES = [
+        1 => 'Administrator',
+        2 => 'Teller',
+        3 => 'Siswa',
+        4 => 'Organisasi / Merchant'
     ];
 
     /**
@@ -71,5 +80,15 @@ class User extends Authenticatable
     public function account(): HasOne
     {
         return $this->hasOne(Account::class);
+    }
+
+    public function getIsCustomerAttribute(): bool
+    {
+        return in_array($this->role, [3,4]);
+    }
+
+    public function getRoleNameAttribute(): string
+    {
+        return self::ROLES[$this->role];
     }
 }

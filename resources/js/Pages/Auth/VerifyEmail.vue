@@ -1,10 +1,7 @@
 <template>
     <Head title="Email Verification" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+    <auth-layout>
 
         <div class="mb-4 text-sm text-gray-600">
             Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
@@ -23,21 +20,19 @@
                 <Link :href="route('logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
             </div>
         </form>
-    </jet-authentication-card>
+    </auth-layout>
 </template>
 
 <script>
     import { defineComponent } from 'vue'
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+    import AuthLayout from '@/Layouts/AuthLayout.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
     export default defineComponent({
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
+            AuthLayout,
             JetButton,
             Link,
         },

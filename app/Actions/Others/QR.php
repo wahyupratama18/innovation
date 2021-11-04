@@ -11,7 +11,7 @@ use BaconQrCode\Writer;
 
 trait QR{
 
-    private function base(string $data)
+    private function base(string $data): string
     {
         return (new Writer(
             new ImageRenderer(
@@ -21,15 +21,20 @@ trait QR{
         ))->writeString($data);
     }
 
-    public function svg(string $data)
+    public function svg(string $data): string
     {
         $svg = $this->base($data);
         return trim(substr($svg, strpos($svg, "\n") + 1));
     }
 
-    public function png(string $data)
+    public function png(string $data): void
     {
         header('Content-Type: image/png');
         echo $this->base($data);
+    }
+
+    private function configureData(string $object, string $data): string
+    {
+        return $object.str_pad(strlen($data), 2, "0", STR_PAD_LEFT).$data;
     }
 }

@@ -13,7 +13,7 @@ module.exports = {
     theme: {
         extend: {
             colors:{
-                'hero': '#4CAF50'
+                'hero': '#F75BAC'
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],

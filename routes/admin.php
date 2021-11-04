@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\{
+    MerchantController,
     TellerController,
     TellerReportController,
     UserController
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('users', UserController::class)->except(['show', 'edit', 'update']);
+Route::resource('merchants', MerchantController::class)->except(['show', 'edit', 'update']);
+
 Route::resource('tellers', TellerController::class);
 
 Route::get('report', [TellerReportController::class, 'index'])->name('report.index');

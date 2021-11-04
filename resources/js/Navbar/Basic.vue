@@ -2,9 +2,8 @@
     <header class="w-full fixed top-0 z-30 mx-auto flex h-20 shadow-md bg-white">
         <div class="flex items-center py-2 px-4 pr-3 bg-hero rounded-br-[3rem]">
 
-            <Link :href="route('welcome')" class="flex items-center">
-                <img :src="asset('storage/images/um.png')" alt="Universitas Negeri Malang" class="h-8 mx-2">
-                <img :src="asset('storage/images/smea.png')" alt="SMKN 1 Banyuwangi" class="h-8 mx-2">
+            <Link :href="route('dashboard')" class="flex items-center">
+                <img :src="asset('storage/images/full-invert.png')" alt="Universitas Negeri Malang" class="h-8">
             </Link>
 
             <button v-if="extras" @click="toggle" class="hidden md:inline-flex items-center justify-center p-2 rounded-md text-white focus:outline-none transition">

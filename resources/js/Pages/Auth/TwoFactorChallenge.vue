@@ -1,10 +1,7 @@
 <template>
     <Head title="Two-factor Confirmation" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+    <auth-layout>
 
         <div class="mb-4 text-sm text-gray-600">
             <template v-if="! recovery">
@@ -45,14 +42,13 @@
                 </jet-button>
             </div>
         </form>
-    </jet-authentication-card>
+    </auth-layout>
 </template>
 
 <script>
     import { defineComponent } from 'vue';
     import { Head } from '@inertiajs/inertia-vue3';
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+    import AuthLayout from '@/Layouts/AuthLayout.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetLabel from '@/Jetstream/Label.vue'
@@ -61,8 +57,7 @@
     export default defineComponent({
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
+            AuthLayout,
             JetButton,
             JetInput,
             JetLabel,

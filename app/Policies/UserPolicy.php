@@ -64,7 +64,19 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->role == 1;
+        return $user->role == 1 && $model->role == 3;
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function deleteMerchant(User $user, User $model): bool
+    {
+        return $user->role == 1 && $model->role == 4;
     }
 
     /**

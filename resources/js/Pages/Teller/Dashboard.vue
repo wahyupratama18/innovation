@@ -5,16 +5,7 @@
                 Selamat datang, {{ $page.props.user.name }}
             </h2>
 
-            <div class="grid grid-cols-1 divide-y-2 divide-none">
-                <div>
-                    <h6>Penerimaan uang (K)</h6>
-                    <apexchart height="300" type="area" :series="cred.series" :options="cred.options" />
-                </div>
-                <div>
-                    <h6>Penyaluran uang (D)</h6>
-                    <apexchart height="300" type="area" :series="deb.series" :options="deb.options" />
-                </div>
-            </div>
+            <apexchart class="mt-4" height="300" type="area" :series="series" :options="options" />
         </div>
     </app-layout>
 </template>
@@ -31,30 +22,15 @@
         },
         data(){
             return {
-                deb: {
-                    options: {
-                        labels: this.debits.date,
-                        xaxis: {type: 'datetime'},
-                        stroke: {curve: 'smooth'},
-                        markers: {size: 1}
-                    },
-                    series: [{
-                        name: 'Grafik penyaluran',
-                        data: this.debits.flow
-                    }]
+                options: {
+                    xaxis: {type: 'datetime'},
+                    stroke: {curve: 'smooth'},
+                    markers: {size: 1}
                 },
-                cred: {
-                    options: {
-                        labels: this.credits.date,
-                        xaxis: {type: 'datetime'},
-                        stroke: {curve: 'smooth'},
-                        markers: {size: 1}
-                    },
-                    series: [{
-                        name: 'Grafik penerimaan',
-                        data: this.credits.flow
-                    }]
-                },
+                series: [
+                    { name: 'Debit', data: this.debits },
+                    { name: 'Kredit', data: this.credits }
+                ]
             }
         },
         components: {

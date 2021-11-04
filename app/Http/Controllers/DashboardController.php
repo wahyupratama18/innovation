@@ -37,18 +37,10 @@ class DashboardController extends Controller
 
     public function teller(): Response
     {
-        $debits = $this->managedByTeller(1);
-        $credits = $this->managedByTeller(0);
 
         return Inertia::render('Teller/Dashboard', [
-            'debits' => (object) [
-                'flow' => $debits->pluck('mount'),
-                'date' => $debits->pluck('date')
-            ],
-            'credits' => (object) [
-                'flow' => $credits->pluck('mount'),
-                'date' => $credits->pluck('date')
-            ],
+            'debits' => $this->managedByTeller(1),
+            'credits' => $this->managedByTeller(0),
         ]);
     }
 
@@ -58,9 +50,8 @@ class DashboardController extends Controller
         $reports = $this->userReport($account);
 
         return Inertia::render('User/Dashboard', [
-            'balance' => $account->balance,
-            'graph' => $reports->pluck('balance'),
-            'date' => $reports->pluck('updated_at')->map(fn($item) => $item->format('m/d/Y H:i'))
+            'balance' => $account->balance_format,
+            'graph' => $this->userReport($account)
         ]);
     }
 }

@@ -1,13 +1,12 @@
 <template>
     <Head title="Forgot Password" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+    <auth-layout>
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+            Lupa kata sandi anda? Tidak masalah. 
+            Masukkan email anda dan kami akan mengirimkan email berisi link reset 
+            yang dapat memperbarui kata sandi anda.
         </div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -22,20 +21,18 @@
                 <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
-                </jet-button>
-            </div>
+            <jet-button class="w-full mt-4 justify-center"  :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Email Password Reset Link
+            </jet-button>
         </form>
-    </jet-authentication-card>
+
+    </auth-layout>
 </template>
 
 <script>
     import { defineComponent } from 'vue'
     import { Head } from '@inertiajs/inertia-vue3';
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+    import AuthLayout from '@/Layouts/AuthLayout.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetLabel from '@/Jetstream/Label.vue'
@@ -44,8 +41,7 @@
     export default defineComponent({
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
+            AuthLayout,
             JetButton,
             JetInput,
             JetLabel,

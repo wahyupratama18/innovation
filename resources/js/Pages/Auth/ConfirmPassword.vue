@@ -1,10 +1,7 @@
 <template>
     <Head title="Secure Area" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+    <auth-layout>
 
         <div class="mb-4 text-sm text-gray-600">
             This is a secure area of the application. Please confirm your password before continuing.
@@ -18,20 +15,17 @@
                 <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" autofocus />
             </div>
 
-            <div class="flex justify-end mt-4">
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Confirm
-                </jet-button>
-            </div>
+            <jet-button class="w-full mt-4 justify-center"  :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Confirm
+            </jet-button>
         </form>
-    </jet-authentication-card>
+    </auth-layout>
 </template>
 
 <script>
     import { defineComponent } from 'vue';
     import { Head } from '@inertiajs/inertia-vue3';
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+    import AuthLayout from '@/Layouts/AuthLayout.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetLabel from '@/Jetstream/Label.vue'
@@ -40,8 +34,7 @@
     export default defineComponent({
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
+            AuthLayout,
             JetButton,
             JetInput,
             JetLabel,

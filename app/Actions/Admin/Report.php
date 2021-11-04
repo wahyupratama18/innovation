@@ -13,18 +13,10 @@ trait Report
 
     private static function query(int $type): Builder
     {
-        return Mutation::selectRaw('sum(amount) as mount, date(updated_at) as date')
+        return Mutation::selectRaw('sum(amount) as y, date(updated_at) as x')
         ->where('status', 1)
         ->where('type', $type)
-        ->groupByRaw('date(updated_at)');
-    }
-
-    private function toChart(Collection $mutation)
-    {
-        return $mutation->map(fn($item) => (object) [
-            'x' => $item->date,
-            'y' => $item->mount,
-        ]);
+        ->groupByRaw('x');
     }
 
     private function rangeQuery(int $type, string $from, string $to): Collection
@@ -52,10 +44,10 @@ trait Report
 
     private function userReport(Account $account): Collection
     {
-        return Mutation::select('type', 'amount', 'balance', 'updated_at')
+        return Mutation::selectRaw('balance as y, updated_at as x')
         ->where('status', 1)
         ->where('updated_at', '>=', now()->subMonth())
         ->where('account_id', $account->id)
-        ->orderByDesc('updated_at')->get();
+        ->orderByDesc('x')->get();
     }
 }

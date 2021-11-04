@@ -17,7 +17,7 @@ class ChangedPassword
     public function handle(Request $request, Closure $next)
     {
         if (!$request->user()->change_pass) {
-            return redirect()->route('dashboard');
+            return redirect()->route('profile.show');
         }
 
         return $next($request);

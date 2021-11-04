@@ -1,11 +1,7 @@
 <template>
     <Head title="Log in" />
 
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
-
+    <auth-layout>
         <jet-validation-errors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -26,27 +22,28 @@
             <div class="block mt-4">
                 <label class="flex items-center">
                     <jet-checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
                 </label>
             </div>
 
+            <jet-button class="w-full mt-4 justify-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Masuk
+            </jet-button>
+            
             <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
+                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-hero hover:text-hero/90">
+                    Lupa kata sandi?
                 </Link>
-
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </jet-button>
             </div>
         </form>
-    </jet-authentication-card>
+
+    </auth-layout>
+
 </template>
 
 <script>
     import { defineComponent } from 'vue'
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+    import AuthLayout from '@/Layouts/AuthLayout.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetCheckbox from '@/Jetstream/Checkbox.vue'
@@ -57,8 +54,7 @@
     export default defineComponent({
         components: {
             Head,
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
+            AuthLayout,
             JetButton,
             JetInput,
             JetCheckbox,

@@ -149,7 +149,9 @@
             </template>
 
             <template #responsive>
-                <single-responsive :href="route('dashboard')">Dashboard</single-responsive>
+                <single-responsive :href="route('dashboard')" icon="home">
+                    Dashboard
+                </single-responsive>
 
                 <Admin v-if="$page.props.user.role == 1" />
                 <Teller v-if="$page.props.user.role == 2" />
