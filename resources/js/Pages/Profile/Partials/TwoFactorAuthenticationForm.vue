@@ -31,8 +31,7 @@
                         </p>
                     </div>
 
-                    <div class="mt-4" v-html="qrCode">
-                    </div>
+                    <div class="mt-4" v-html="qrCode" />
                 </div>
 
                 <div v-if="recoveryCodes.length > 0">

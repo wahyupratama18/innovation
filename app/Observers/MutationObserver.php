@@ -36,7 +36,7 @@ class MutationObserver
                 $mutation->amount,
                 $mutation->type
             );
-        }
+        } else $mutation->balance = 0;
     }
 
     /**

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\User\Withdrawing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreWithdrawRequest;
 use App\Models\Mutation;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\DB;
 use Inertia\{Inertia, Response};
 
 class WithdrawController extends Controller
 {
+    use Withdrawing;
+
     /**
      * Display a listing of the resource.
      *
@@ -37,10 +40,10 @@ class WithdrawController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreWithdrawRequest $request)
+    public function store(StoreWithdrawRequest $request): RedirectResponse
     {
         return DB::transaction(function () use ($request) {
-            $mutation = Mutation::create(
+            Mutation::create(
                 array_merge($request->validated(), [
                     'account_id' => auth()->user()->account->id,
                     'name' => 'Tarik Tunai',
@@ -49,7 +52,7 @@ class WithdrawController extends Controller
                 ])
             );
 
-            return redirect()->route('withdraw.show', ['withdraw' => $mutation->id]);
+            return redirect()->route('withdraw.show');
         });
 
     }
@@ -60,10 +63,13 @@ class WithdrawController extends Controller
      * @param  \App\Models\Mutation  $mutation
      * @return \Illuminate\Http\Response
      */
-    public function show(Mutation $mutation)
+    public function show()
     {
+        $mutation = $this->existing(auth()->user());
+
         return Inertia::render('User/Withdraw/Show', [
-            'mutation' => $mutation
+            'mutation' => $mutation->reference,
+            'qr' => $mutation->qr
         ]);
     }
 

@@ -21,4 +21,12 @@ mix.setPublicPath('public_html')
 
 if (mix.inProduction()) {
     mix.version();
+} else {
+    // mix.browserSync({
+    //     proxy: "https://innovation.web.um",
+    //     files: [
+    //       'public_html/**/*',
+    //       'routes/**/*'
+    //     ]
+    // })
 }

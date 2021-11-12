@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Actions\Admin\Report;
+use App\Actions\Tellers\FindMutation;
 use App\Http\Controllers\Controller;
 use App\Models\Mutation;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Inertia\{Inertia, Response};
 
 class MutationController extends Controller
 {
-    use Report;
+    use FindMutation, Report;
 
     /**
      * Display a listing of the resource.
@@ -52,8 +53,12 @@ class MutationController extends Controller
      * @param  \App\Models\Mutation  $mutation
      * @return \Illuminate\Http\Response
      */
-    public function show(Mutation $mutation): Response
+    public function show(int $mutation): Response
     {
+        $mutation = $this->finder($mutation);
+
+        $this->authorize('view', $mutation);
+
         return Inertia::render('User/Mutation/Show', [
             'mutation' => $mutation
         ]);

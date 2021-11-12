@@ -6,6 +6,7 @@ use App\Actions\Others\{MoneyFormat, QR};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
+use Illuminate\Support\Facades\Hash;
 
 class Account extends Model
 {
@@ -17,6 +18,10 @@ class Account extends Model
     protected $fillable = [
         'id',
         'user_id'
+    ],
+
+    $hidden = [
+        'password'
     ],
     
     $appends = [
@@ -70,5 +75,12 @@ class Account extends Model
         return $this->configureData('00', self::VERSION)
         .$this->configureData('01', self::TYPE['static'])
         .$this->configureData('02', $this->id);
+    }
+
+    public function updatePass(string $pass): void
+    {
+        $this->forceFill([
+            'transaction_password' => Hash::make($pass)
+        ])->save();
     }
 }

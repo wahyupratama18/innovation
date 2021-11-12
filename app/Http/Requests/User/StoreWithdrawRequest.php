@@ -11,9 +11,9 @@ class StoreWithdrawRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,14 @@ class StoreWithdrawRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'amount' => [
+                'required',
+                'integer',
+                'lte:'. $this->user()->account->balance
+            ]
         ];
     }
 }

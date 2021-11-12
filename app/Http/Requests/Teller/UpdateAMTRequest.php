@@ -14,7 +14,7 @@ class UpdateAMTRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->checkAMT($this->amt);
+        return true/* $this->checkAMT($this->amt) */;
     }
 
     /**

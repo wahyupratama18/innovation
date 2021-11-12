@@ -13,7 +13,9 @@ class AddTransactionPasswordOnAccounts extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('accounts', function (Blueprint $table) {
+            $table->string('transaction_password');
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AddTransactionPasswordOnAccounts extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('accounts', function (Blueprint $table) {
+            $table->dropColumn('transaction_password');
+        });
     }
 }

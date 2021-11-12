@@ -28,9 +28,9 @@ class MutationPolicy
      * @param  \App\Models\Mutation  $mutation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Mutation $mutation)
+    public function view(User $user, Mutation $mutation): bool
     {
-        //
+        return $user->id === $mutation->account->user_id;
     }
 
     private function validTeller(User $user, Mutation $mutation): bool

@@ -66,9 +66,15 @@ class Mutation extends Model
 
     public function getQrAttribute(): ?string
     {
-        return $this->id ?
-        $this->svg($this->getReferenceAttribute()) :
-        null;
+        if ($this->id) {
+            $string = $this->getReferenceAttribute();
+
+            return $this->svg(
+                $string.$this->configureData('10', hash('crc32b', $string))
+            );
+        }
+        
+        return null;
     }
 
     public function getAmountFormatAttribute(): string
@@ -79,5 +85,20 @@ class Mutation extends Model
     public function getBalanceFormatAttribute(): string
     {
         return $this->formatter($this->balance);
+    }
+
+    /* QR Attributes */
+    private const VERSION = '01',
+        TYPE_ID = [
+            0 => '13', // credits
+            1 => '14' // debits
+        ];
+
+    public function plainQR(): string
+    {
+        return $this->configureData('00', self::VERSION)
+        .$this->configureData('01', self::TYPE_ID[$this->type])
+        .$this->configureData('02', $this->id)
+        .$this->configureData('03', $this->amount);
     }
 }

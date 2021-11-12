@@ -3,11 +3,16 @@
 use App\Http\Controllers\User\{
     HistoryController,
     MutationController,
+    ProfileViewController,
     QRController,
+    ResetTransactionPasswordController,
+    TransactionPasswordController,
     TransferController,
     WithdrawController
 };
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
+use Laravel\Jetstream\Jetstream;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +25,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('withdraw', WithdrawController::class)->only(['create', 'store', 'show']);
+
+
 Route::resource('mutations', MutationController::class)->only(['index', 'show']);
 
 Route::get('history', [HistoryController::class, 'index'])->name('history.index');
@@ -28,11 +34,46 @@ Route::get('history/range', [HistoryController::class, 'range'])->name('history.
 
 Route::get('qr', [QRController::class, 'index'])->name('qr.index');
 
-Route::prefix('transfer')->name('transfer.')->group(function () {
-    Route::get('/scan', [TransferController::class, 'scan'])->name('scan');
-    Route::get('/accounts', [TransferController::class, 'accounts'])->name('accounts');
-    Route::get('/merchant', [TransferController::class, 'merchant'])->name('merchant');
-
-    Route::get('create/{account}', [TransferController::class, 'create'])->name('create');
+Route::middleware('transaction.password')->group(function () {
+    Route::prefix('transfer')->name('transfer.')->group(function () {
+        Route::get('/scan', [TransferController::class, 'scan'])->name('scan');
+        Route::get('/accounts', [TransferController::class, 'accounts'])->name('accounts');
+        Route::get('/merchant', [TransferController::class, 'merchant'])->name('merchant');
+    
+        Route::get('create/{account}', [TransferController::class, 'create'])->name('create');
+    });
+    Route::resource('transfer', TransferController::class)->only(['index', 'store']);
+    
+    Route::prefix('withdraw')->name('withdraw.')->middleware('withdrawable:exist')
+    ->group(function () {
+        Route::get('/', [WithdrawController::class, 'show'])->name('show');
+        Route::delete('/', [WithdrawController::class, 'destroy'])->name('destroy');
+    });
+    Route::resource('withdraw', WithdrawController::class)->middleware('withdrawable:empty')->only(['create', 'store']);
 });
-Route::resource('transfer', TransferController::class)->only(['index', 'store']);
+
+
+Route::prefix('user/profile')->name('profile.')->group(function() {
+
+    if (Features::canUpdateProfileInformation()) {
+        Route::get('information', [ProfileViewController::class, 'info'])->name('info');
+    }
+
+    if (Features::enabled(Features::updatePasswords())) {
+        Route::get('password', [ProfileViewController::class, 'password'])->name('password');
+    }
+    
+    if (Features::canManageTwoFactorAuthentication()) {
+        Route::get('two-factor', [ProfileViewController::class, 'twoFactor'])->name('two-factor');
+    }
+
+    if (Jetstream::hasAccountDeletionFeatures()) {
+        Route::get('deletion', [ProfileViewController::class, 'delete'])->name('deletetion');
+    }
+
+    Route::get('sessions', [ProfileViewController::class, 'sessions'])->name('sessions');
+    Route::prefix('transactpass')->name('transactpass.')->group(function () {
+        Route::resource('/', TransactionPasswordController::class)->only(['index', 'store']);
+        Route::resource('/forget', ResetTransactionPasswordController::class)->only(['store', 'show']);
+    });
+});

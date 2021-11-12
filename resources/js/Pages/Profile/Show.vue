@@ -26,7 +26,7 @@
             </div>
         </template>
 
-        <combined :sessions="sessions" />
+        <customer/>
 
     </user-layout>
 
@@ -37,7 +37,9 @@
             </h2>
         </template>
 
-        <combined :sessions="sessions" />
+        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <employee :sessions="sessions" />
+        </div>
 
     </app-layout>
 
@@ -48,7 +50,8 @@
     import { Link } from '@inertiajs/inertia-vue3';
     import AppLayout from '@/Layouts/AppLayout.vue'
     import Breadcrumb from '@/Navbar/Breadcrumb.vue'
-    import Combined from '@/Pages/Profile/Combined.vue'
+    import Customer from '@/Pages/Profile/Customer.vue'
+    import Employee from '@/Pages/Profile/Employee.vue'
     import JetInvertButton from '@/Jetstream/InvertButton.vue'
     import UserLayout from '@/Layouts/UserLayout.vue'
 
@@ -68,7 +71,8 @@
         components: {
             AppLayout,
             Breadcrumb,
-            Combined,
+            Customer,
+            Employee,
             JetInvertButton,
             Link,
             UserLayout
