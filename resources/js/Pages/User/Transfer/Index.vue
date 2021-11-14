@@ -1,50 +1,50 @@
 <template>
     <user-layout :title="title">
         <template #head>
-
             <div class="flex items-center">
                 <Link :href="route('dashboard')">
                     <i class="mdi mdi-chevron-left mdi-24px mr-3 -mt-3" />
                 </Link>
                 <Breadcrumb :title="title" :breads="breads" :classes="false" />
             </div>
-
         </template>
 
-        <div class="text-hero">
-            <h6>
-                Demi keamanan, qr ini hanya valid hingga satu jam setelah permintaan tarik tunai berlangsung.<br>
-                Segera hubungi teller untuk melakukan penarikan tunai!
-            </h6>
+        <div class="grid grid-cols-1 gap-y-2 divide-y divide-hero text-hero text-lg">
+            <Link :href="route('transfer.scan')">
+                <i class="mdi mdi-chevron-right mr-2" /> Scan QR
+            </Link>
 
-            <p class="my-3 flex justify-center" v-html="qr" />
-            <h3 class="font-bold text-lg flex justify-center" v-html="id"></h3>
+            <Link class="pt-2" :href="route('transfer.accounts')">
+                <i class="mdi mdi-chevron-right mr-2" /> Transfer Ke Akun
+            </Link>
+
+            <Link class="pt-2" :href="route('transfer.merchant')">
+                <i class="mdi mdi-chevron-right mr-2" /> Ke Organisasi / Merchant
+            </Link>
+
         </div>
+
     </user-layout>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/inertia-vue3'
 import Breadcrumb from '@/Navbar/Breadcrumb.vue'
 import UserLayout from '@/Layouts/UserLayout.vue'
 
 export default defineComponent({
-    props: {
-        id: Number,
-        qr: String
-    },
     components: {
-        Breadcrumb,
         Link,
+        Breadcrumb,
         UserLayout
     },
     data(){
         return {
-            title: 'Ambil uang',
+            title: 'Menu Transaksi',
             breads: [
                 {route: route('dashboard'), text: 'Dashboard'},
-                {route: route('withdraw.store'), text: 'Ambil uang'},
+                {route: route('transfer.index'), text: 'Pilih metode transaksi'},
             ],
         }
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FindAccountController;
 use App\Http\Controllers\User\{
     HistoryController,
     MutationController,
@@ -26,7 +27,7 @@ use Laravel\Jetstream\Jetstream;
 */
 
 
-
+Route::get('find/{account}', [FindAccountController::class, 'userFind'])->name('userFinder');
 Route::resource('mutations', MutationController::class)->only(['index', 'show']);
 
 Route::get('history', [HistoryController::class, 'index'])->name('history.index');
@@ -41,6 +42,8 @@ Route::middleware('transaction.password')->group(function () {
         Route::get('/merchant', [TransferController::class, 'merchant'])->name('merchant');
     
         Route::get('create/{account}', [TransferController::class, 'create'])->name('create');
+
+        Route::post('/sent', [TransferController::class, 'sent'])->name('sent');
     });
     Route::resource('transfer', TransferController::class)->only(['index', 'store']);
     

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Teller;
 
 use App\Models\Account;
+use App\Rules\HavingMoreBalance;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,8 +29,7 @@ class StoreAMTRequest extends FormRequest
         return [
             'account_id' => [
                 'required',
-                Rule::exists(Account::class, 'id')
-                ->where(fn($query) => $query->where('balance', '>=', $this->amount))
+                new HavingMoreBalance($this->account_id)
             ],
             'amount' => 'required|integer'
         ];

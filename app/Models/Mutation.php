@@ -92,13 +92,14 @@ class Mutation extends Model
         TYPE_ID = [
             0 => '13', // credits
             1 => '14' // debits
-        ];
+        ], DYNAMIC = '12';
 
     public function plainQR(): string
     {
         return $this->configureData('00', self::VERSION)
-        .$this->configureData('01', self::TYPE_ID[$this->type])
+        .$this->configureData('01', $this->status ? self::TYPE_ID[$this->type] : self::DYNAMIC)
         .$this->configureData('02', $this->id)
-        .$this->configureData('03', $this->amount);
+        .$this->configureData('03', $this->account->user->name)
+        .$this->configureData('04', $this->amount);
     }
 }

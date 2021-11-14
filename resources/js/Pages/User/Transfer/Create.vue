@@ -1,19 +1,17 @@
 <template>
     <user-layout :title="title">
         <template #head>
-
             <div class="flex items-center">
-                <Link :href="route('dashboard')">
+                <Link :href="route('transfer.index')">
                     <i class="mdi mdi-chevron-left mdi-24px mr-3 -mt-3" />
                 </Link>
                 <Breadcrumb :title="title" :breads="breads" :classes="false" />
             </div>
-
         </template>
 
         <div>
-            <jet-label for="amount" value="Jumlah (Rp)" />
-            <jet-input id="amount" type="number" class="mt-1 block w-full" v-model="form.amount" ref="amount" placeholder="Masukkan Nominal yang Ingin Diambil" @keyup="notEmpty" />
+            <jet-label for="amount" :value="`Masukkan nominal yang akan dikirimkan kepada ${user} (${account})`" />
+            <jet-input id="amount" type="number" class="mt-1 block w-full" v-model="form.amount" ref="amount" placeholder="Masukkan Nominal yang akan dikirimkan" @keyup="notEmpty" />
             <jet-input-error :message="form.errors.amount" class="mt-2" />
             <jet-input-error :message="form.errors.password" class="mt-2" />
         </div>
@@ -38,10 +36,9 @@ import TransactionPassword from '@/Jetstream/TransactionPassword.vue'
 import UserLayout from '@/Layouts/UserLayout.vue'
 
 export default defineComponent({
-    props: {},
     components: {
-        Breadcrumb,
         Link,
+        Breadcrumb,
         JetButton,
         JetInput,
         JetInputError,
@@ -49,14 +46,20 @@ export default defineComponent({
         TransactionPassword,
         UserLayout
     },
+    props: {
+        account: Number,
+        user: String
+    },
     data(){
         return {
-            title: 'Tarik Tunai',
+            title: 'Kirim Uang',
             breads: [
                 {route: route('dashboard'), text: 'Dashboard'},
-                {route: route('withdraw.create'), text: 'Penarikan Tunai'},
+                {route: route('transfer.index'), text: 'Metode transaksi'},
+                {route: route('transfer.create', {account: this.account}), text: 'Kirim uang'},
             ],
             form: this.$inertia.form({
+                account_id: this.account,
                 amount: '',
                 password: ''
             }),
@@ -64,16 +67,16 @@ export default defineComponent({
         }
     },
     methods: {
+        notEmpty(){
+            this.closed = !(parseInt(this.form.amount) > 0)
+        },
         store(password){
             this.form.password = password
-            this.form.post(route('withdraw.store'), {
+            this.form.post(route('transfer.store'), {
                 preserveScroll: true,
                 onSuccess: () => this.form.reset()
             })
         },
-        notEmpty(){
-            this.closed = !(parseInt(this.form.amount) > 0)
-        }
     }
 })
 </script>

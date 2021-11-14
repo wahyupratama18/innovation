@@ -14,4 +14,9 @@ class FindAccountController extends Controller
             'name' => $account->user->name
         ]);
     }
+
+    public function userFind(Account $account): JsonResponse
+    {
+        return response()->json('exist');
+    }
 }

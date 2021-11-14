@@ -60,7 +60,7 @@ class MutationController extends Controller
         $this->authorize('view', $mutation);
 
         return Inertia::render('User/Mutation/Show', [
-            'mutation' => $mutation
+            'mutation' => $mutation->only(['name', 'type_read', 'reference', 'amount', 'qr'])
         ]);
     }
 

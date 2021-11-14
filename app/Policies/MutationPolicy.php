@@ -30,7 +30,7 @@ class MutationPolicy
      */
     public function view(User $user, Mutation $mutation): bool
     {
-        return $user->id === $mutation->account->user_id;
+        return $user->id === $mutation->account->user_id && $mutation->status === 1;
     }
 
     private function validTeller(User $user, Mutation $mutation): bool

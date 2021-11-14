@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreTransferRequest;
+use App\Models\{Account, Mutation, User};
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\{Inertia, Response};
 
 class TransferController extends Controller
 {
@@ -12,9 +17,9 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render('User/Transfer/Index');
     }
 
     /**
@@ -22,9 +27,12 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Account $account): Response
     {
-        //
+        return Inertia::render('User/Transfer/Create', [
+            'account' => $account->id,
+            'user' => $account->user->name
+        ]);
     }
 
     /**
@@ -33,53 +41,38 @@ class TransferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTransferRequest $request): RedirectResponse
     {
-        //
+        $mutation = DB::transaction(function () use ($request) {
+            $sender = User::with('account:id,user_id')->find(auth()->id());
+            $receiver = Account::with('user')->find($request->account_id);
+
+            Mutation::create(
+                array_merge($request->validated(), [
+                    'name' => 'Terima uang dari '.$sender->name.'('.$sender->account->id.')',
+                    'type' => 0
+                ])
+            );
+
+            return Mutation::create([
+                'account_id' => $sender->account->id,
+                'name' => 'Kirim uang ke '.$receiver->user->name.'('.$request->account_id.')',
+                'type' => 1,
+                'amount' => $request->amount
+            ]);
+        });
+
+        return redirect()->route('mutations.show', ['mutation' => $mutation->reference]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function scan(): Response
     {
-        //
+        return Inertia::render('User/Transfer/Scan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function accounts(): Response
     {
-        //
+        return Inertia::render('User/Transfer/Accounts');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

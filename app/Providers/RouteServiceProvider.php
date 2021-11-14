@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/teller.php'));
 
-            Route::middleware(['web', 'auth:sanctum', 'roles:3,4', 'password.change'])
+            Route::middleware(['web', 'auth:sanctum', 'roles:3,4'/* , 'password.change' */])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/user.php'));
         });

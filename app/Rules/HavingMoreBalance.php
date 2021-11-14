@@ -4,18 +4,20 @@ namespace App\Rules;
 
 use App\Models\Account;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
 
-class HasCurrentTransactionPassword implements Rule
+class HavingMoreBalance implements Rule
 {
+
+    private $account;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Account $account)
     {
-        //
+        $this->account = $account;
     }
 
     /**
@@ -27,13 +29,7 @@ class HasCurrentTransactionPassword implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $pass = Account::where('user_id', auth()->id())->first()->transaction_password;
-        
-        if ($pass && !Hash::check($value, $pass)) {
-            return false;
-        }
-
-        return true;
+        return $this->account->balance >= $value;
     }
 
     /**
@@ -41,8 +37,8 @@ class HasCurrentTransactionPassword implements Rule
      *
      * @return string
      */
-    public function message(): string
+    public function message()
     {
-        return 'Kata sandi transaksi tidak sesuai.';
+        return 'Akun tidak memiliki saldo yang cukup.';
     }
 }

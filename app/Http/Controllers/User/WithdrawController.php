@@ -15,16 +15,6 @@ class WithdrawController extends Controller
     use Withdrawing;
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -68,42 +58,9 @@ class WithdrawController extends Controller
         $mutation = $this->existing(auth()->user());
 
         return Inertia::render('User/Withdraw/Show', [
-            'mutation' => $mutation->reference,
+            'id' => $mutation->reference,
             'qr' => $mutation->qr
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mutation $mutation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Mutation $mutation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mutation $mutation)
-    {
-        //
-    }
 }

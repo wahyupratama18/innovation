@@ -2,18 +2,19 @@
 
 namespace App\Http\Requests\User;
 
-use App\Rules\HasCurrentTransactionPassword;
-use App\Rules\HavingMoreBalance;
+use App\Models\Account;
+use App\Rules\{HasCurrentTransactionPassword, HavingMoreBalance};
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreWithdrawRequest extends FormRequest
+class StoreTransferRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -23,14 +24,11 @@ class StoreWithdrawRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'amount' => [
-                'required',
-                'integer',
-                new HavingMoreBalance($this->user()->account)
-            ],
+            'account_id' => Rule::exists(Account::class, 'id'),
+            'amount' => ['required', 'integer', new HavingMoreBalance($this->user()->account)],
             'password' => ['required', 'string', new HasCurrentTransactionPassword]
         ];
     }

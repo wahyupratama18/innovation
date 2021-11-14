@@ -21,7 +21,7 @@ class Account extends Model
     ],
 
     $hidden = [
-        'password'
+        'transaction_password'
     ],
     
     $appends = [
@@ -74,7 +74,8 @@ class Account extends Model
     {
         return $this->configureData('00', self::VERSION)
         .$this->configureData('01', self::TYPE['static'])
-        .$this->configureData('02', $this->id);
+        .$this->configureData('02', $this->id)
+        .$this->configureData('03', $this->user->name);
     }
 
     public function updatePass(string $pass): void

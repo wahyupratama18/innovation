@@ -35,6 +35,7 @@
         "vue-select": "^4.0.0-beta.1",
         "vue-toasted": "^1.1.28",
         "vue3-apexcharts": "^1.4.1",
-        "vue3-datepicker": "^0.2.5"
+        "vue3-datepicker": "^0.2.5",
+        "vue3-qrcode-reader": "^0.0.1"
     }
 }

@@ -1,6 +1,8 @@
 <template>
     <span>
-        <slot />
+        <span @click="startConfirmingPassword">
+            <slot />
+        </span>
 
         <jet-dialog-modal :show="confirmingPassword" @close="closeModal">
             <template #title v-html="title" />
@@ -21,7 +23,7 @@
                     Batalkan
                 </jet-secondary-button>
 
-                <jet-button class="ml-2" @click="confirmPassword" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" v-html="button" />
+                <jet-button class="ml-2" @click="confirmPassword" v-html="button" />
             </template>
         </jet-dialog-modal>
     </span>
@@ -46,7 +48,7 @@
             },
             button: {
                 default: 'Konfirmasi',
-            }
+            },
         },
 
         components: {
@@ -59,42 +61,23 @@
         data() {
             return {
                 password: '',
+                confirmingPassword: false
             }
         },
 
         methods: {
             startConfirmingPassword() {
-                axios.get(route('password.confirmation')).then(response => {
-                    if (response.data.confirmed) {
-                        this.$emit('confirmed');
-                    } else {
-                        this.confirmingPassword = true;
-
-                        setTimeout(() => this.$refs.password.focus(), 250)
-                    }
-                })
+                this.confirmingPassword = true;
+                setTimeout(() => this.$refs.password.focus(), 250)
             },
 
             confirmPassword() {
-                this.form.processing = true;
-
-                axios.post(route('password.confirm'), {
-                    password: this.form.password,
-                }).then(() => {
-                    this.form.processing = false;
-                    this.closeModal()
-                    this.$nextTick(() => this.$emit('confirmed'));
-                }).catch(error => {
-                    this.form.processing = false;
-                    this.form.error = error.response.data.errors.password[0];
-                    this.$refs.password.focus()
-                });
+                this.closeModal()
+                this.$nextTick(() => this.$emit('confirmed', this.password));
             },
 
             closeModal() {
                 this.confirmingPassword = false
-                this.form.password = '';
-                this.form.error = '';
             },
         }
     })
