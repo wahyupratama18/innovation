@@ -17,7 +17,12 @@ class Account extends Model
 
     protected $fillable = [
         'id',
-        'user_id'
+        'user_id',
+        'transaction_password'
+    ],
+
+    $casts = [
+        'id' => 'string'
     ],
 
     $hidden = [

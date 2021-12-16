@@ -75,4 +75,13 @@ class TransferController extends Controller
         return Inertia::render('User/Transfer/Accounts');
     }
 
+    public function merchants(): Response
+    {
+        return Inertia::render('User/Transfer/Merchants', [
+            'merchants' => User::select('id', 'name')->with('account:id,user_id')
+            ->merchant()->get()
+            ->map(fn($user) => ['id' => $user->account->id, 'name' => $user->name])
+        ]);
+    }
+
 }

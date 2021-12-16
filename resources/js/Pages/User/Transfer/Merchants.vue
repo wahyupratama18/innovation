@@ -2,26 +2,20 @@
     <user-layout :title="title">
         <template #head>
             <div class="flex items-center">
-                <Link :href="route('dashboard')">
+                <Link :href="route('transfer.index')">
                     <i class="mdi mdi-chevron-left mdi-24px mr-3 -mt-3" />
                 </Link>
                 <Breadcrumb :title="title" :breads="breads" :classes="false" />
             </div>
         </template>
 
-        <div class="grid grid-cols-1 gap-y-2 divide-y divide-hero text-hero text-lg">
-            <Link :href="route('transfer.scan')">
-                <i class="mdi mdi-chevron-right mr-2" /> Scan QR
-            </Link>
+        <!-- <h3 class="font-bold text-lg text-hero" v-text="'Pilih Merchant'" /> -->
 
-            <Link class="pt-2" :href="route('transfer.accounts')">
-                <i class="mdi mdi-chevron-right mr-2" /> Transfer Ke Akun
+        <div class="grid grid-cols-1 md:grid-cols-3">
+            <Link :href="route('transfer.create', {account: merchant.id})" class="bg-hero rounded-md shadow p-4 text-white" v-for="(merchant, i) in merchants" :key="i">
+                <h5 class="font-bold text-lg" v-text="merchant.name" />
+                <span v-text="merchant.id" />
             </Link>
-
-            <Link class="pt-2" :href="route('transfer.merchants')">
-                <i class="mdi mdi-chevron-right mr-2" /> Ke Organisasi / Merchant
-            </Link>
-
         </div>
 
     </user-layout>
@@ -39,14 +33,19 @@ export default defineComponent({
         Breadcrumb,
         UserLayout
     },
+    props: {
+        merchants: Array
+    },
     data(){
         return {
-            title: 'Menu Transaksi',
+            title: 'Pilih Merchant',
             breads: [
                 {route: route('dashboard'), text: 'Dashboard'},
-                {route: route('transfer.index'), text: 'Pilih metode transaksi'},
-            ],
+                {route: route('transfer.index'), text: 'Metode transaksi'},
+                {route: route('transfer.merchants'), text: 'Ke merchant'},
+            ]
         }
-    }
+    },
+    methods: {}
 })
 </script>

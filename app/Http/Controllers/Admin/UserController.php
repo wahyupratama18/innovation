@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/User/Index', [
             'users' => User::select('id', 'name')
-            ->where('role', 3)
+            ->siswa()
             ->with('account')->get()
             ->map(fn($user) => (object) [
                 'id' => $user->id,
@@ -64,7 +64,8 @@ class UserController extends Controller
                 'id' => str_pad($request->angkatan, 2, "0", STR_PAD_LEFT)
                 .str_pad($request->department, 2, "0", STR_PAD_LEFT)
                 .random_int(100000,999999),
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'transaction_password' => ''
             ]);
         });
 

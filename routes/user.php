@@ -28,10 +28,10 @@ use Laravel\Jetstream\Jetstream;
 
 
 Route::get('find/{account}', [FindAccountController::class, 'userFind'])->name('userFinder');
-Route::resource('mutations', MutationController::class)->only(['index', 'show']);
+Route::resource('mutations', MutationController::class)->only(['index', 'store', 'show']);
 
-Route::get('history', [HistoryController::class, 'index'])->name('history.index');
-Route::get('history/range', [HistoryController::class, 'range'])->name('history.range');
+/* Route::get('history', [HistoryController::class, 'index'])->name('history.index');
+Route::get('history/range', [HistoryController::class, 'range'])->name('history.range'); */
 
 Route::get('qr', [QRController::class, 'index'])->name('qr.index');
 
@@ -39,7 +39,7 @@ Route::middleware('transaction.password')->group(function () {
     Route::prefix('transfer')->name('transfer.')->group(function () {
         Route::get('/scan', [TransferController::class, 'scan'])->name('scan');
         Route::get('/accounts', [TransferController::class, 'accounts'])->name('accounts');
-        Route::get('/merchant', [TransferController::class, 'merchant'])->name('merchant');
+        Route::get('/merchants', [TransferController::class, 'merchants'])->name('merchants');
     
         Route::get('create/{account}', [TransferController::class, 'create'])->name('create');
 

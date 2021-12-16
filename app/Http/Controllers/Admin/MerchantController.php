@@ -20,7 +20,7 @@ class MerchantController extends Controller
     {
         return Inertia::render('Admin/Merchants/Index', [
             'merchants' => User::select('id', 'name')
-            ->where('role', 4)
+            ->merchant()
             ->with('account')->get()
             ->map(fn($user) => (object) [
                 'id' => $user->id,
@@ -59,7 +59,8 @@ class MerchantController extends Controller
     
             Account::create([
                 'id' => "0000".random_int(100000,999999),
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'transaction_password' => ''
             ]);
         });
 

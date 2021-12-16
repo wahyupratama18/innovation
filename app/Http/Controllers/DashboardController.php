@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Admin\Report;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\{Inertia, Response};
 
@@ -13,18 +14,11 @@ class DashboardController extends Controller
 
     public function index(): Response
     {
-        switch (Auth::user()->role) {
-            case 1:
-                return $this->admin();
-                break;
-            
-            case 2:
-                return $this->teller();
-                break;
-            default:
-                return $this->user();
-                break;
-        }
+        return match(Auth::user()->role) {
+            1 => $this->admin(),
+            2 => $this->teller(),
+            default => $this->user()
+        };
     }
     
     private function admin(): Response
@@ -32,6 +26,10 @@ class DashboardController extends Controller
         return Inertia::render('Admin/Dashboard', [
             'debits' => $this->dashboard(1),
             'credits' => $this->dashboard(0),
+            'users' => [
+                ['role' => 'Siswa', 'count' => User::where('role', 3)->count()],
+                ['role' => 'Organisasi / Merchant', 'count' => User::where('role', 4)->count()]
+            ],
         ]);
     }
 
@@ -47,7 +45,6 @@ class DashboardController extends Controller
     public function user(): Response
     {
         $account = Auth::user()->account;
-        $reports = $this->userReport($account);
 
         return Inertia::render('User/Dashboard', [
             'balance' => $account->balance_format,

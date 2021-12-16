@@ -29,7 +29,8 @@ class StoreTransferRequest extends FormRequest
         return [
             'account_id' => Rule::exists(Account::class, 'id'),
             'amount' => ['required', 'integer', new HavingMoreBalance($this->user()->account)],
-            'password' => ['required', 'string', new HasCurrentTransactionPassword]
+            'password' => ['required', 'string', new HasCurrentTransactionPassword],
+            'news' => ['nullable','string']
         ];
     }
 }

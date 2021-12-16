@@ -17,7 +17,7 @@ trait FindMutation
         ];
     }
 
-    public function finder(int $id): Mutation
+    public function finder(Mutation|int $id): Mutation
     {
         $split = $this->splitter($id);
 

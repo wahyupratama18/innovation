@@ -30,7 +30,7 @@ trait Report
     private function dashboard(int $type): Collection
     {
         return self::query($type)
-        ->whereDate('updated_at', '>=', now()->subWeek())
+        ->whereDate('updated_at', '>=', now()->subMonths(2))
         ->get();
     }
     

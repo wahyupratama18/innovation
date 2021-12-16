@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -87,8 +88,18 @@ class User extends Authenticatable
         return in_array($this->role, [3,4]);
     }
 
-    public function getRoleNameAttribute(): string
+    public function getRoleNameAttribute(): ?string
     {
-        return self::ROLES[$this->role];
+        return $this->role ? self::ROLES[$this->role] : null;
+    }
+
+    public function scopeSiswa(Builder $query): Builder
+    {
+        return $query->where('role', 3);
+    }
+
+    public function scopeMerchant(Builder $query): Builder
+    {
+        return $query->where('role', 4);
     }
 }

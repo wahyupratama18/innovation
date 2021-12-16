@@ -5,7 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Actions\Admin\Report;
 use App\Actions\Tellers\FindMutation;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\ValidateMutationHistoryRequest;
 use App\Models\Mutation;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\{Inertia, Response};
 
@@ -21,19 +23,12 @@ class MutationController extends Controller
     public function index(): Response
     {
         return Inertia::render('User/Mutation/Index', [
-            /* 'mutations' => Mutation::where('account_id', auth()->user()->account->id)
-            ->where('updated_at') */
+            'periods' => [
+                'latest' => 'Transaksi Terakhir',
+                'week' => '1 Pekan',
+                'month' => '1 Bulan'
+            ]
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -42,9 +37,9 @@ class MutationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidateMutationHistoryRequest $request): JsonResponse
     {
-        //
+        return response()->json('10-4');
     }
 
     /**
@@ -62,39 +57,5 @@ class MutationController extends Controller
         return Inertia::render('User/Mutation/Show', [
             'mutation' => $mutation->only(['name', 'type_read', 'reference', 'amount', 'qr'])
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mutation $mutation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Mutation $mutation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mutation  $mutation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mutation $mutation)
-    {
-        //
     }
 }

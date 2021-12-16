@@ -17,11 +17,11 @@
             :line-numbers="true">
                 <template #table-row="props">
                     <div v-if="props.column.field == 'action'">
-                        <Link :href="route('tellers.edit', {teller: props.row.id})">
+                        <Link :href="route('tellers.edit', {teller: props.row.id})" class="mr-2">
                             <Button>Perbarui</Button>
                         </Link>
 
-                        <DangerButton @click="remove(props.row.id)" v-text="'Hapus'" />
+                        <DangerButton @click="remove(props.row.id)" v-text="'Hapus'" class="ml-2" />
                     </div>
                     <span v-else v-html="props.formattedRow[props.column.field]" />
                 </template>

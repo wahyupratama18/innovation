@@ -15,22 +15,16 @@
 
                 <div class="flex mt-6 justify-center md:justify-start">
                     <Link v-if="$page.props.user" :href="route('dashboard')" class="w-full">
-                        <InvertButton class="w-full justify-center">
-                            Beranda
-                        </InvertButton>
+                        <InvertButton class="w-full justify-center" v-html="'Beranda'" />
                     </Link>
 
                     <template v-else>
                         <Link v-if="canLogin" :href="route('login')" class="w-full">
-                            <InvertButton class="w-full justify-center">
-                                Masuk
-                            </InvertButton>
+                            <InvertButton class="w-full justify-center" v-html="'Masuk'" />
                         </Link>
 
                         <Link v-if="canRegister" :href="route('register')" class="text-sm underline">
-                            <Button>
-                                Registrasi
-                            </Button>
+                            <jet-button v-html="'Registrasi'" />
                         </Link>
                     </template>
 
@@ -58,7 +52,7 @@
 
         <div class="flex justify-center mt-6">
             <div>
-                <h3 class="text-hero text-lg">Didukung Oleh</h3>
+                <h3 class="text-hero text-lg text-center">Didukung Oleh</h3>
                 <div class="mt-4 flex justify-center">
                     <img :src="asset('storage/images/um.png')" alt="UM" class="h-16 mx-4">
                     <img :src="asset('storage/images/enggal.png')" alt="Enggal Mantun" class="h-16 mx-4">
@@ -71,12 +65,14 @@
 <script>
     import { defineComponent } from 'vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
+    import JetButton from '@/Jetstream/Button.vue';
     import InvertButton from '@/Jetstream/InvertButton.vue';
 
     export default defineComponent({
         components: {
             Head,
             Link,
+            JetButton,
             InvertButton
         },
 
